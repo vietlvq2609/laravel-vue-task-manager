@@ -7,6 +7,61 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Steps to setup this project
+Follow these steps to get your project up and running:
+
+1. **Clone the Repository**
+	Clone the project to your local machine:
+	```bash
+	git clone git@github.com:vietlvq2609/laravel-vue-task-manager.git
+	```
+2. **Navigate to the Project Directory**
+	Change into the project directory:
+	```bash
+		cd laravel-vue-task-manager
+	```
+3. **Install Dependencies**
+	Use Composer to install the required dependencies:
+	```bash
+		docker compose run --rm composer install
+	```
+4. **Start the Development Environment**
+	Launch the application using Sail:
+	```bash
+		sail up -d
+	```
+	Alternatively, you can use:
+	```bash
+	./vendor/bin/sail up -d
+	```
+5. **Generate Laravel's app key and run migration**
+	Generate app key using Sail:
+	```bash
+		sail artisan key:generate
+	```
+	Run migration to create database:
+	```bash
+	sail artisan migrate
+	```
+6. **Install npm packages and build code**
+	Make sure yarn is installed in your machine, if not let's run:
+	```bash
+		npm install -global yarn
+	```
+	Install npm packages using Yarn:
+	```bash
+		yarn install
+	```
+	Then build javascript code:
+	```bash
+		yarn build
+	```
+	Or you can return this command in development env:
+	```bash
+		yarn dev
+	```
+7. **Now your can check our app in http://localhost**
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
