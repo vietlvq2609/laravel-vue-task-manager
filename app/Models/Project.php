@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
     use HasFactory;
-
     protected $fillable = [
+        'code',
         'name',
         'description',
         'owner_id',

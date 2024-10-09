@@ -12,27 +12,9 @@ class ProjectController extends Controller
 {
     public function index(): Response
     {
+        $projects = Project::with('owner')->get();
         return Inertia::render('Projects/Index', [
-            'projects' => [
-                [
-                    'id' => 'PROJECT-1',
-                    'title' => 'Project 1',
-                    'description' => 'Description for Project 1',
-                    'owner' => [
-                        'id' => 1,
-                        'name' => 'Jonathan Reinink',
-                    ]
-                ],
-                [
-                    'id' => 'PROJECT-2',
-                    'title' => 'Project 2',
-                    'description' => 'Description for Project 2',
-                    'owner' => [
-                        'id' => 1,
-                        'name' => 'Jonathan Reinink',
-                    ]
-                ]
-            ]
+            'projects' => $projects
         ]);
     }
 
@@ -42,25 +24,28 @@ class ProjectController extends Controller
     }
     public function edit(Request $request): Response
     {
+        $project = Project::with('owner')->findOrFail($request->route('id'));
         return Inertia::render('Projects/Edit', [
-            'project' => [
-                'id' => 'PROJECT-2',
-                'title' => 'Project 2',
-                'description' => 'Description for Project 2',
-                'owner' => [
-                    'id' => 1,
-                    'name' => 'Jonathan Reinink',
-                ]
-            ],
+            'project' => $project
         ]);
     }
     public function store(Request $request): RedirectResponse
     {
-        $project = Project::create($request->validate([
-            'name' => ['required', 'max:100'],
-            'description' => ['nullable'],
-        ]));
+        $request->validate([
+            'code' => ['required', 'string', 'min:4', 'max:15', 'unique:projects'],
+            'name' => ['required', 'string', 'max:100'],
+            'description' => ['nullable', 'string'],
+        ]);
 
-        return to_route('projects.edit', ['project' => $project]);
+        $project = Project::create([
+            'code' => $request->input('code'),
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'owner_id' => auth()->id(),
+        ]);
+
+        return to_route('projects.edit', [
+            'id' => $project->id
+        ]);
     }
 }
